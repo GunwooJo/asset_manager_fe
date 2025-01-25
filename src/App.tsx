@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import UserJoin from './pages/UserJoin';
+import UserJoin from './pages/user/UserJoin.tsx';
 
 function App() {
 

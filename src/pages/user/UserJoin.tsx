@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import styles from "./UserJoin.module.css";
 import googleIcon from "../../assets/googleIcon.svg";
+import {redirectToGoogleOAuth} from "../../utils/googleAuth.ts";
 
-interface UserJoinProps {
-  onGoogleLogin: () => void; // Google 로그인 함수
-}
-
-const UserJoin: React.FC<UserJoinProps> = ({ onGoogleLogin }) => {
+const UserJoin: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,7 +43,7 @@ const UserJoin: React.FC<UserJoinProps> = ({ onGoogleLogin }) => {
 
               <button type="submit" className={styles.submitButton}>회원가입</button>
 
-              <button onClick={onGoogleLogin} className={styles.googleButton}>
+              <button onClick={redirectToGoogleOAuth} className={styles.googleButton}>
                   <img
                       src={googleIcon}
                       alt="구글 아이콘"

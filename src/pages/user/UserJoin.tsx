@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "./UserJoin.module.css";
 import googleIcon from "../../assets/googleIcon.svg";
-import {redirectToGoogleOAuth} from "../../utils/googleAuth.ts";
+import {useGoogleLogin} from "@react-oauth/google";
+import axios from "axios";
 
 const UserJoin: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,21 @@ const UserJoin: React.FC = () => {
     // 회원가입 처리 로직 추가
     console.log("회원가입 요청: ", { email, password });
   };
+
+    const googleOAuthLogin = useGoogleLogin({
+        scope: 'email profile',
+        onSuccess: async ({ code }) => {
+            axios
+                .post(`${import.meta.env.VITE_SERVER_URL}/auth/google/login`, { code })
+                .then(({ data }) => {
+                    console.log(data);
+                });
+        },
+        onError: (errorResponse) => {
+            console.error(errorResponse);
+        },
+        flow: 'auth-code',
+    });
 
   return (
       <div className={styles.container}>
@@ -43,7 +59,7 @@ const UserJoin: React.FC = () => {
 
               <button type="submit" className={styles.submitButton}>회원가입</button>
 
-              <button onClick={redirectToGoogleOAuth} className={styles.googleButton}>
+              <button onClick={() => googleOAuthLogin()} className={styles.googleButton}>
                   <img
                       src={googleIcon}
                       alt="구글 아이콘"
